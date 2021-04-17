@@ -7,6 +7,7 @@ namespace Converter
     {
         List<string> GetAvailableExtensions();
         void TryToConvert(string path, string extension, string goalExtension, string goalPath);
+        void WriteImage(Image image, string path, string goalExtension, string goalPath);
     }
 
     public class UniversalImageConverter : IUniversalImageConverter
@@ -31,8 +32,12 @@ namespace Converter
             var converter = imageConverters.First(c => c.Extension == extension);
             var file = fileWorker.Read(path);
             var image = converter.Decode(file);
-            var goalConvertor = imageConverters.First(c => c.Extension == goalExtension);
+            WriteImage(image, path, goalExtension, goalPath);
+        }
 
+        public void WriteImage(Image image, string path, string goalExtension, string goalPath)
+        {
+            var goalConvertor = imageConverters.First(c => c.Extension == goalExtension);
             var result = goalConvertor.Encode(image);
             fileWorker.Write(result, goalPath ?? path, goalExtension);
         }

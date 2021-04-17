@@ -7,14 +7,15 @@ namespace ConsoleApplication
     {
         public readonly KeyWord Source = new KeyWord {Key = "--source"};
         public readonly KeyWord Goal = new KeyWord {Key = "--goal-format"};
-        public readonly KeyWord Output = new KeyWord {Key = "--output"};
-        public string SourceExtension => Source.Value.Split('.').Last();
+        public readonly KeyWord OutputPath = new KeyWord {Key = "--output"};
+        public string SourceExtension => Source.Value.Split('.').Last(); 
+        public string OutputExtension => OutputPath.Value.Split('.').Last();
         
         private readonly List<KeyWord> keyWords;
         
         public InputProcessor()
         {
-            keyWords = new List<KeyWord> {Source, Goal, Output};
+            keyWords = new List<KeyWord> {Source, Goal, OutputPath};
         }
         public void SetupKeyWords(List<string> args)
         {

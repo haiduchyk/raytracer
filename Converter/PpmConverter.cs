@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
-    using Converter;
 
     public class PpmConverter : IImageConverter
     {
