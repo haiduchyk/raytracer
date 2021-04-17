@@ -13,16 +13,6 @@
 
         public static void Main(string[] args)
         {
-            args = new[]
-            {
-                // "--source=simplecow.obj",
-                "--source=cow.obj",
-                // "--source=dragon3.obj",
-                // "--source=teapot.obj",
-                // "--source=car4.obj",
-                "--output=rendered.bmp"
-            };
-            
             RegisterServices();
             RunApp(args);
             DisposeServices();
