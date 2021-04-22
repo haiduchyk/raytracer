@@ -83,7 +83,7 @@ namespace RaytracerNet
         {
             var barycentric = trig.Barycentric(point);
             var normal = barycentric.X * trig.NA + barycentric.Y * trig.NB + barycentric.Z * trig.NC;
-
+            normal = Vector3.Normalize(normal);
             var lightDirection = Vector3.Normalize(lightPosition - point);
             var hitColor = Math.Max(0, Vector3.Dot(normal, lightDirection));
 
