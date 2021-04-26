@@ -26,31 +26,32 @@ namespace RaytracerNet
 
         private const float Epsilon = 0.00001f;
 
-        public void Traverse(Ray ray, ref float tmin, ref Trig triangle)
+        public void Traverse(Ray ray, ref float tmin, ref Trig triangle, ref Vector3 barycentric)
         {
             if (isLeaf)
             {
-                FindIntersection(ray.Origin, ray.Dir, ref tmin, ref triangle);
+                FindIntersection(ray.Origin, ray.Dir, ref tmin, ref triangle, ref barycentric);
                 return;
             }
 
             if (!GetIntersection(ray.Origin, ray.Dir, box)) return;
 
-            left?.Traverse(ray, ref tmin, ref triangle);
-            middle?.Traverse(ray, ref tmin, ref triangle);
-            right?.Traverse(ray, ref tmin, ref triangle);
+            left?.Traverse(ray, ref tmin, ref triangle, ref barycentric);
+            middle?.Traverse(ray, ref tmin, ref triangle, ref barycentric);
+            right?.Traverse(ray, ref tmin, ref triangle, ref barycentric);
         }
 
-        private void FindIntersection(Vector3 origin, Vector3 dir, ref float tmin, ref Trig triangle)
+        private void FindIntersection(Vector3 origin, Vector3 dir, ref float tmin, ref Trig triangle, ref Vector3 barycentric)
         {
             foreach (var trig in trigs)
             {
-                if (Geometry.ThereIsIntersection(origin, dir, trig, out var t))
+                if (Geometry.ThereIsIntersection(origin, dir, trig, out var t, out var bary))
                 {
                     if (t > 0.01f && tmin > t)
                     {
                         tmin = t;
                         triangle = trig;
+                        barycentric = bary;
                     }
                 }
             }

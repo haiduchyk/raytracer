@@ -73,23 +73,23 @@ namespace RaytracerNet
         {
             var tmin = float.MaxValue;
             var trig = new Trig();
-                    
-            kdTree.Root.Traverse(ray, ref tmin, ref trig);
+            var barycentric = Vector3.Zero;
+            
+            kdTree.Root.Traverse(ray, ref tmin, ref trig, ref barycentric);
             var point = ray.PointAt(tmin);
-            return CalculateColorFor(point, trig);
+            return CalculateColorFor(point, trig, barycentric);
         }
         
-        private Color CalculateColorFor(Vector3 point, Trig trig)
+        private Color CalculateColorFor(Vector3 point, Trig trig, Vector3 barycentric)
         {
-            var barycentric = trig.Barycentric(point);
-            var normal = barycentric.X * trig.NA + barycentric.Y * trig.NB + barycentric.Z * trig.NC;
+            var normal = barycentric.Z * trig.NA + barycentric.X * trig.NB + barycentric.Y * trig.NC;
             normal = Vector3.Normalize(normal);
+            
             var lightDirection = Vector3.Normalize(lightPosition - point);
             var hitColor = Math.Max(0, Vector3.Dot(normal, lightDirection));
-
             var color = (normal + Vector3.One) * 0.5f * 255 * hitColor;
-
-            return new Color((int) color.X, (int) color.Y, (int) color.Z);
+            
+            return new Color( (int) color.X, (int) color.Y, (int) color.Z);
         }
 
     }

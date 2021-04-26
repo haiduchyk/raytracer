@@ -1,13 +1,15 @@
 namespace RaytracerNet
 {
+    using System.Net.WebSockets;
     using System.Numerics;
 
     public static class Geometry
     {
-        public static bool ThereIsIntersection(Vector3 rayOrigin, Vector3 rayVector, Trig inTriangle, out float t)
+        public static bool ThereIsIntersection(Vector3 rayOrigin, Vector3 rayVector, Trig inTriangle, out float t, out Vector3 barycentric)
         {
             t = int.MaxValue;
-            
+            barycentric = Vector3.Zero;
+
             var vertex0 = inTriangle.A;
             var vertex1 = inTriangle.B;
             var vertex2 = inTriangle.C;
@@ -37,6 +39,9 @@ namespace RaytracerNet
                 return false;
             }
 
+            var w = 1 - v - u;
+            barycentric = new Vector3(u, v, w);
+            
             // At this stage we can compute t to find out where the intersection point is on the line.
             t = f * Vector3.Dot(edge2, q);
             return t > EPSILON;

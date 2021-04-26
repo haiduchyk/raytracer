@@ -52,24 +52,6 @@ namespace RaytracerNet
             Maxs.Y = Geometry.GetMax(A.Y, B.Y, C.Y);
             Maxs.Z = Geometry.GetMax(A.Z, B.Z, C.Z);
         }
-        
-        public Vector3 Barycentric(Vector3 point)
-        {
-            Vector3 v0 = B - A, v1 = C - A, v2 = point - A;
-            
-            var d00 = Vector3.Dot(v0, v0);
-            var d01 = Vector3.Dot(v0, v1);
-            var d11 = Vector3.Dot(v1, v1);
-            var d20 = Vector3.Dot(v2, v0);
-            var d21 = Vector3.Dot(v2, v1);
-            var invDenom = 1 / (d00 * d11 - d01 * d01);
-            
-            var v = (d11 * d20 - d01 * d21) * invDenom;
-            var w = (d00 * d21 - d01 * d20) * invDenom;
-            var u = 1 - v - w;
-
-            return new Vector3(u, v, w);
-        }
 
         public static int CompareByPosition(Trig t1, Trig t2, int axes)
         {

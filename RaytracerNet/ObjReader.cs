@@ -14,7 +14,7 @@ namespace RaytracerNet
         private List<string> lines;
 
         private IFileWorker fileWorker;
-        
+
         private readonly Regex whitespace = new Regex(@"\s+");
 
         public ObjReader(IFileWorker fileWorker)
@@ -53,7 +53,7 @@ namespace RaytracerNet
 
         private IEnumerable<string[]> GetLinesBy(string label)
         {
-            return lines.Select(l =>whitespace.Split(l.Trim())).Where(a => a[0] == label);
+            return lines.Select(l => whitespace.Split(l.Trim())).Where(a => a[0] == label);
         }
 
 
