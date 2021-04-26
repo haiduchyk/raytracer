@@ -18,7 +18,7 @@ namespace RaytracerNet
             var h = Vector3.Cross(rayVector, edge2);
 
             var a = Vector3.Dot(edge1, h);
-            var EPSILON = 1e-5f;
+            var EPSILON = 1e-10f;
             if (a > -EPSILON && a < EPSILON)
             {
                 return false;
