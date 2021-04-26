@@ -6,6 +6,7 @@
 **/.idea/shelf/*
 **/.idea/dictionaries
 **/.idea/httpRequests/
+**/.idea/.idea.raytracer/.idea/
 
 # Sensitive or high-churn files
 **/.idea/**/dataSources/
@@ -20,6 +21,10 @@
 **/.idea/**/*.iml
 **/.idea/**/contentModel.xml
 **/.idea/**/modules.xml
+
+**/.idea/**/vsc.xml
+**/.idea/**/indexLayout.xml
+**/.idea/**/projectSettingsUpdater.xml
 
 *.suo
 *.user
