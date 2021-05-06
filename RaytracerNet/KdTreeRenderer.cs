@@ -3,6 +3,7 @@ namespace RaytracerNet
     using System;
     using System.Linq;
     using System.Numerics;
+    using System.Threading.Tasks;
     using ConsoleApplication;
     using Converter;
 
@@ -18,7 +19,7 @@ namespace RaytracerNet
         private readonly IRayProvider rayProvider;
         
         private KdTree kdTree;
-        private const int ScreenWidth = 1000;
+        private const int ScreenWidth = 4000;
         private const int ScreenHeight = (int) (ScreenWidth / 1.5);
         private Vector3 lightPosition = new Vector3(10, 10, 0);
         private Camera camera = new Camera(new Vector3(0, 0, 1f), ScreenWidth, ScreenHeight, 30);
@@ -38,19 +39,18 @@ namespace RaytracerNet
             var image = new Image(ScreenHeight, ScreenWidth);
             stopwatch.Start();
 
-            for (var y = 0; y < image.Height; y++)
-            {
-                TryUpdateProgress(y, ScreenHeight);
-                for (var x = 0; x < image.Width; x++)
-                {
-                    var ray = rayProvider.GetRay(x, y);
-                    image[y, x] = GetColor(ray);
-                }
-            }
+            var renderParallelized = new ParallelizeRender();
+            renderParallelized.Render(SetPixel, image);
 
             stopwatch.StopAndShow();
 
             return image;
+        }
+
+        private void SetPixel(Image image, int x, int y)
+        {
+            var ray = rayProvider.GetRay(x, y);
+            image[y, x] = GetColor(ray);
         }
 
         private void BuildTree(Mesh mesh)
